@@ -41,26 +41,12 @@ let Chaincode = class {
   // initDrug - create a new drug batch for specific RFID tag
   // ========================================================
   async initDrug(stub, args, thisClass) {
-    if (args.length != 5) {
-      throw new Error('Incorrect number of arguments. Expecting 4');
+    if (args.length != 8) {
+      throw new Error('Incorrect number of arguments. Expecting 8');
     }
     // ==== Input sanitation ====
     console.info('--- start init drug batch ---')
-    if (args[0].lenth <= 0) {
-      throw new Error('1st argument must be a non-empty string');
-    }
-    if (args[1].lenth <= 0) {
-      throw new Error('2nd argument must be a non-empty string');
-    }
-    if (args[2].lenth <= 0) {
-      throw new Error('3rd argument must be a non-empty string');
-    }
-    if (args[3].lenth <= 0) {
-      throw new Error('4th argument must be a non-empty string');
-    }
-    if (args[4].lenth <= 0) {
-        throw new Error('4th argument must be a non-empty string');
-      }
+
     let RFIDtag = args[0];
     let drugName = args[1].toLowerCase();
     let organization = args[2].toLowerCase();
@@ -68,20 +54,14 @@ let Chaincode = class {
     if (typeof amount !== 'number') {
         throw new Error('4th argument must be a numeric string');
     }
-    let dateManufacturedString = args[4].split('-');
-    let dateManufactured = new Date(dateManufacturedString[0], dateManufacturedString[1] - 1, dateManufacturedString[2]); 
-    if (typeof dateManufactured !== 'Date') {
-        throw new Error('4th argument must be a date in format dd-mm-yyyy');
-    }
-    let dateExpiredString = args[5].split('-');
-    let dateExpired = new Date(dateExpiredString[0],dateExpiredString[1]-1,dateExpiredString[2]);
-    if (typeof dateExpired !== 'Date') {
-        throw new Error('5th argument must be a date in format dd-mm-yyyy');
-    }
+
+    let dateManufactured = args[4];
+    let dateExpired = args[5];
     let minTemp = parseInt(args[6]);
     if (typeof minTemp !== 'number') {
         throw new Error('6th argument must be a numeric string');
     }
+
     let maxTemp = parseInt(args[7]);
     if (typeof maxTemp !== 'number') {
         throw new Error('7th argument must be a numeric string');
